@@ -13,6 +13,9 @@
     "clean": "turbo run clean",
     "reinstall": "npm run clean && rm -rf **/node_modules && npm install",
     "clear-turbo-cache": "rimraf ./.turbo/cache",
+    "backend": "sh ../scripts/api_backend_dev.sh --e2e",
+    "wait-on-backend": "npx wait-on http-get://localhost:8080/api/v1/health",
+    "wait-on-app": "npx wait-on http-get://localhost:3000",
     "e2e": "turbo run e2e:local",
     "e2e:debug": "turbo run e2e -- --debug",
     "e2e:ci": "turbo run e2e:ci",
@@ -64,7 +67,7 @@
     "swc-loader": "^0.2.6",
     "terser-webpack-plugin": "^5.3.11",
     "ts-node": "^10.9.2",
-    "turbo": "^2.3.4",
+    "turbo": "^2.5.6",
     "typedoc": "^0.25.8",
     "typescript": "5.4.5",
     "wait-on": "^7.0.1"

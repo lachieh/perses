@@ -31,13 +31,23 @@
       "cache": false
     },
     "e2e:local": {
-      "dependsOn": [],
+      "with": ["//#backend", "@perses-dev/app#start"],
+      "dependsOn": ["//#wait-on-backend", "//#wait-on-app"],
       "outputs": [],
       "cache": false
     },
     "e2e:ci": {
       "dependsOn": [],
       "outputs": [],
+      "cache": false
+    },
+    "//#backend": {
+      "cache": false
+    },
+    "//#wait-on-backend": {
+      "cache": false
+    },
+    "//#wait-on-app": {
       "cache": false
     }
   }
