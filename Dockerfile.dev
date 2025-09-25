@@ -1,20 +1,26 @@
-FROM node:20 AS node-builder
+FROM --platform=$BUILDPLATFORM node:20 AS node-builder
 WORKDIR /app
 COPY ui ui
 COPY Makefile Makefile
 RUN make build-ui
 
-FROM golang:1.25 AS go-builder
+FROM --platform=$BUILDPLATFORM golang:1.25 AS go-builder
+ARG TARGETOS
+ARG TARGETARCH
 WORKDIR /go/src/github.com/perses/perses
 COPY . .
 COPY --from=node-builder /app/ui/app/dist ui/app/dist
 RUN mkdir /perses
 RUN mkdir /plugins
+
+ENV GOARCH=${TARGETARCH}
+ENV GOOS=${TARGETOS} 
 RUN make build-api
 RUN make build-cli
 
 FROM gcr.io/distroless/static-debian12
 
+LABEL org.opencontainers.image.source="https://github.com/cosmonic/control"
 LABEL maintainer="The Perses Authors <perses-team@googlegroups.com>"
 
 USER nobody
